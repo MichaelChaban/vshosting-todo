@@ -1,36 +1,25 @@
-name: CI
+name: Frontend CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-
-permissions:
-  actions: read
-  contents: read
+    branches:
+      - '*'
 
 jobs:
-  main:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          fetch-depth: 0
+          node-version: '21.7.1'
 
-      # Connect your workspace on nx.app and uncomment this to enable task distribution.
-      # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "e2e-ci" targets have been requested
-      # - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-js" --stop-agents-after="e2e-ci"
+      - name: Install dependencies
+        run: npm install
 
-      # Cache node_modules
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          cache: 'npm'
-      - run: npm ci
-      - uses: nrwl/nx-set-shas@v4
-
-      # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
-      # - run: npx nx-cloud record -- echo Hello World
-      - run: npx nx affected -t lint test build
-      - run: npx nx affected --parallel 1 -t e2e-ci
+      - name: Build Angular app
+        run: npm run build:prod
