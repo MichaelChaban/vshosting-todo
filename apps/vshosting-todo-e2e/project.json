@@ -1,0 +1,9 @@
+{
+  "name": "vshosting-todo-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/vshosting-todo-e2e/src",
+  "implicitDependencies": ["vshosting-todo"],
+  "// targets": "to see all targets run: nx show project vshosting-todo-e2e --web",
+  "targets": {}
+}
