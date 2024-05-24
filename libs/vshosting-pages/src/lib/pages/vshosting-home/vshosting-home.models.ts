@@ -1,8 +1,13 @@
-import { ColumnDefinition, Todo } from "@vshosting-todo/shared";
+import {
+  ColumnDefinition,
+  FilterDefinition,
+  Todo,
+} from "@vshosting-todo/shared";
 
 export function getColumnDefinitions(defs: {
   onEdit: (row: Todo) => void;
   onDelete: (row: Todo) => void;
+  markAllAsCompleted: () => void;
 }): ColumnDefinition<Todo>[] {
   return [
     {
@@ -25,6 +30,13 @@ export function getColumnDefinitions(defs: {
     },
     {
       id: "actions",
+      headerActions: [
+        {
+          title: "Mark All As Completed",
+          color: "primary",
+          onClick: defs.markAllAsCompleted,
+        },
+      ],
       columnActions: [
         {
           title: "Edit",
@@ -41,6 +53,28 @@ export function getColumnDefinitions(defs: {
           tooltip: "Delete",
           onClick: defs.onDelete,
         },
+      ],
+    },
+  ];
+}
+
+export function getFilterDefinitions(): FilterDefinition<Todo>[] {
+  return [
+    { id: "id", label: "ID", type: "text", placeholder: "Filter by ID" },
+    {
+      id: "text",
+      label: "Text",
+      type: "text",
+      placeholder: "Text",
+    },
+    {
+      id: "completed",
+      label: "Completed",
+      type: "select",
+      placeholder: "Completed",
+      options: [
+        { value: "true", label: "Completed" },
+        { value: "false", label: "Not Completed" },
       ],
     },
   ];

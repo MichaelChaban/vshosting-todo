@@ -7,28 +7,21 @@ export const selectTodoState = createFeatureSelector<todos.TodoState>(
   TODO_FEATURE_KEY
 );
 
-export const selectTodoIds = createSelector(
-  selectTodoState,
-  todos.selectIds
+export const selectAllTodos = createSelector(selectTodoState, todos.selectAll);
+
+export const selectCompletedTodos = createSelector(selectAllTodos, (todos) =>
+  todos.filter((todo) => todo.completed)
 );
-export const selectTodoEntities = createSelector(
-  selectTodoState,
-  todos.selectEntities
+export const selectCompletedTodosCount = createSelector(
+  selectAllTodos,
+  (todos) => todos.filter((todo) => todo.completed)?.length
 );
-export const selectAllTodos = createSelector(
-  selectTodoState,
-  todos.selectAll
+
+export const selectUncompletedTodos = createSelector(selectAllTodos, (todos) =>
+  todos.filter((todo) => !todo.completed)
 );
-export const selectTodoTotal = createSelector(
-  selectTodoState,
-  todos.selectTotal
-);
-export const selectCurrentTodoId = createSelector(
-  selectTodoState,
-  (state) => state.selectedTodoId
-);
-export const selectCurrentTodo = createSelector(
-  selectTodoEntities,
-  selectCurrentTodoId,
-  (todoEntities, todoId) => (todoId ? todoEntities[todoId] : null)
+
+export const selectUncompletedTodosCount = createSelector(
+  selectAllTodos,
+  (todos) => todos.filter((todo) => !todo.completed)?.length
 );

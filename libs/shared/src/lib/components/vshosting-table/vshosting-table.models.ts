@@ -6,6 +6,7 @@ export interface ColumnDefinition<T, _KEY = keyof T> {
   id: string;
   value?: ((row?: T) => string | undefined) | string;
   headerName?: string;
+  headerActions?: ColumnActionDefinition[];
   icon?: string;
   sortable?: boolean;
   routerLink?: ((row?: T) => string) | string;
@@ -23,7 +24,17 @@ export interface ColumnActionDefinition {
   className?: string;
   rounded?: boolean;
   disabled?: ((row?: any) => boolean) | boolean;
-  onClick?: (row: any) => any;
+  onClick?: (row?: any) => any;
   routerLink?: string;
   queryParams?: { [key: string]: any };
+}
+
+export interface FilterDefinition<T> {
+  id: string;
+  label: string;
+  type: "text" | "date" | "select" | "checkbox";
+  options?: { value: string; label: string }[];
+  placeholder?: string;
+  isSelectMultiple?: boolean;
+  value?: any;
 }

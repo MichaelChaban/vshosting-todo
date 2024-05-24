@@ -29,9 +29,13 @@ export const todoReducer = createReducer(
   on(TodoActions.fetchTodosSuccessAction, (state, { todos }) =>
     adapter.setAll(todos, state)
   ),
-  on(TodoActions.clearTodosSuccessAction, (state) =>
-    adapter.removeAll({ ...state, selectedTodoId: null })
-  )
+  on(TodoActions.markAllAsCompletedSuccessAction, (state) => {
+    const updatedTodos = state.ids.map((id) => {
+      const todo = state.entities[id];
+      return { ...todo, completed: true } as Todo;
+    });
+    return adapter.setAll(updatedTodos, state);
+  })
 );
 
 export function reducer(state: TodoState | undefined, action: Action) {

@@ -3,14 +3,13 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { EMPTY } from "rxjs";
 import { map, mergeMap, catchError } from "rxjs/operators";
 import * as TodoActions from "./todo.actions";
-import { TodosService } from "@vshosting-todo/shared";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { TodosService, VshostingSnackbarService } from "@vshosting-todo/shared";
 
 @Injectable()
 export class TodoEffects {
   private readonly actions$ = inject(Actions);
   private readonly todoService = inject(TodosService);
-  private readonly snackbar = inject(MatSnackBar);
+  private readonly snackbar = inject(VshostingSnackbarService);
 
   fetchTodos$ = createEffect(() =>
     this.actions$.pipe(
@@ -18,7 +17,10 @@ export class TodoEffects {
       mergeMap(() =>
         this.todoService.fetchList().pipe(
           map((todos) => TodoActions.fetchTodosSuccessAction({ todos })),
-          catchError(() => EMPTY)
+          catchError(() => {
+            this.snackbar.error("Todos were not fetched");
+            return EMPTY;
+          })
         )
       )
     )
@@ -30,15 +32,11 @@ export class TodoEffects {
       mergeMap((action) =>
         this.todoService.create(action.todo).pipe(
           map((todo) => {
-            this.snackbar.open("Todo was created", "Close", {
-              duration: 2000,
-            });
+            this.snackbar.success("Todo was created");
             return TodoActions.addTodoSuccessAction({ todo });
           }),
           catchError(() => {
-            this.snackbar.open("Todo was not created", "Close", {
-              duration: 2000,
-            });
+            this.snackbar.error("Todo was not created");
             return EMPTY;
           })
         )
@@ -52,17 +50,13 @@ export class TodoEffects {
       mergeMap(({ id, todo }) =>
         this.todoService.update(id, todo).pipe(
           map((updatedTodo) => {
-            this.snackbar.open(`Todo #${todo.id} was updated`, "Close", {
-              duration: 2000,
-            });
+            this.snackbar.success(`Todo #${id} was updated`);
             return TodoActions.updateTodoSuccessAction({
               update: { id: updatedTodo.id!, changes: updatedTodo },
             });
           }),
           catchError(() => {
-            this.snackbar.open(`Todo #${todo.id} was not updated`, "Close", {
-              duration: 2000,
-            });
+            this.snackbar.error(`Todo #${todo.id} was not updated`);
             return EMPTY;
           })
         )
@@ -76,15 +70,29 @@ export class TodoEffects {
       mergeMap(({ id }) =>
         this.todoService.delete(id).pipe(
           map(() => {
-            this.snackbar.open(`Todo #${id} was deleted`, "Close", {
-              duration: 2000,
-            });
+            this.snackbar.success(`Todo #${id} was deleted`);
             return TodoActions.deleteTodoSuccessAction({ id: id });
           }),
           catchError(() => {
-            this.snackbar.open(`Todo #${id} was not deleted`, "Close", {
-              duration: 2000,
-            });
+            this.snackbar.error(`Todo #${id} was not deleted`);
+            return EMPTY;
+          })
+        )
+      )
+    )
+  );
+
+  markAllAsCompleted$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TodoActions.markAllAsCompletedAction),
+      mergeMap(() =>
+        this.todoService.markAllAsCompleted().pipe(
+          map(() => {
+            this.snackbar.success("All todos were marked as completed");
+            return TodoActions.markAllAsCompletedSuccessAction();
+          }),
+          catchError(() => {
+            this.snackbar.error("All todos were not marked as completed");
             return EMPTY;
           })
         )

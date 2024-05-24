@@ -3,7 +3,25 @@
   display: block;
   max-height: 500px;
   overflow-y: auto;
+  display: inline-table;
 
+  &__filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 1rem;
+
+    &-reset {
+      width: fit-content;
+    }
+
+    &-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+  &__header-actions,
   &__column-actions {
     display: flex;
     justify-content: center;

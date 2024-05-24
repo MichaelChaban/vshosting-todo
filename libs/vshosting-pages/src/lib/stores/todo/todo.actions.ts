@@ -27,7 +27,7 @@ export const addTodoFailureAction = createAction(
 
 export const updateTodoAction = createAction(
   "[Todo] Update Todo",
-  props<{ id: number; todo: Todo }>()
+  props<{ id: string; todo: Todo }>()
 );
 export const updateTodoSuccessAction = createAction(
   "[Todo] Update Todo Success",
@@ -40,21 +40,23 @@ export const updateTodoFailureAction = createAction(
 
 export const deleteTodoAction = createAction(
   "[Todo] Delete Todo",
-  props<{ id: number }>()
+  props<{ id: string }>()
 );
 export const deleteTodoSuccessAction = createAction(
   "[Todo] Delete Todo Success",
-  props<{ id: number }>()
+  props<{ id: string }>()
 );
 export const deleteTodoFailureAction = createAction(
   "[Todo] Delete Todo Failure",
-  props<{ id: number }>()
+  props<{ id: string }>()
 );
 
-export const clearTodosAction = createAction("[Todo] Clear Todos");
-export const clearTodosSuccessAction = createAction(
-  "[Todo] Clear Todos Success"
+export const markAllAsCompletedAction = createAction(
+  "[Todo] Mark All As Completed"
 );
-export const clearTodosFailureAction = createAction(
-  "[Todo] Clear Todos Failure"
+export const markAllAsCompletedSuccessAction = createAction(
+  "[Todo] Mark All As Completed Success"
+);
+export const markAllAsCompletedFailureAction = createAction(
+  "[Todo] Mark All As Completed Failure"
 );

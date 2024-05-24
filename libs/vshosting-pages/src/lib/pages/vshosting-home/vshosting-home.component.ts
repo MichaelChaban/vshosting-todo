@@ -1,6 +1,7 @@
 /* eslint-disable @angular-eslint/component-selector */
 import {
   ColumnDefinition,
+  FilterDefinition,
   Todo,
   VshostingTableComponent,
 } from "@vshosting-todo/shared";
@@ -10,14 +11,22 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  Signal,
   TemplateRef,
   ViewChild,
   inject,
 } from "@angular/core";
-import { getColumnDefinitions } from "./vshosting-home.models";
+import {
+  getColumnDefinitions,
+  getFilterDefinitions,
+} from "./vshosting-home.models";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { selectAllTodos } from "../../stores";
+import {
+  selectAllTodos,
+  selectCompletedTodosCount,
+  selectUncompletedTodosCount,
+} from "../../stores";
 import { VshostingHomeFacade } from "./vshosting-home.facade";
 import { MatFormFieldModule, MatLabel } from "@angular/material/form-field";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -52,9 +61,16 @@ export class VshostingHomeComponent implements OnInit, AfterViewInit {
 
   readonly facade = inject(VshostingHomeFacade);
 
-  todos$!: Observable<Todo[]>;
+  todos$: Observable<Todo[]> = this.store.select(selectAllTodos);
+  completedTodosCount$: Observable<number> = this.store.select(
+    selectCompletedTodosCount
+  );
+  uncompletedTodosCount$: Observable<number> = this.store.select(
+    selectUncompletedTodosCount
+  );
 
   columnDefinitions!: ColumnDefinition<Todo>[];
+  filterDefinitions!: FilterDefinition<Todo>[];
 
   get isFormInvalid(): boolean {
     return this.facade.formGroup.invalid && this.facade.formGroup.touched;
@@ -62,11 +78,7 @@ export class VshostingHomeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.facade.init();
-    this.todos$ = this.store.select(selectAllTodos);
-    this.columnDefinitions = getColumnDefinitions({
-      onEdit: (row: Todo) => this.facade.editTodo(row),
-      onDelete: (row: Todo) => this.facade.deleteTodo(row),
-    });
+    this.initDefs();
   }
 
   ngAfterViewInit(): void {
@@ -76,5 +88,14 @@ export class VshostingHomeComponent implements OnInit, AfterViewInit {
 
   createTodo(): void {
     this.facade.createTodo();
+  }
+
+  private initDefs() {
+    this.columnDefinitions = getColumnDefinitions({
+      onEdit: (row: Todo) => this.facade.editTodo(row),
+      onDelete: (row: Todo) => this.facade.deleteTodo(row),
+      markAllAsCompleted: () => this.facade.markAllAsCompleted(),
+    });
+    this.filterDefinitions = getFilterDefinitions();
   }
 }

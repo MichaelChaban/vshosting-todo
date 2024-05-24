@@ -1,7 +1,6 @@
 import { Injectable, TemplateRef, inject } from "@angular/core";
 import {
   Todo,
-  TodosService,
   VshostingDialogComponent,
   VshostingDialogData,
 } from "@vshosting-todo/shared";
@@ -9,17 +8,15 @@ import {
   addTodoAction,
   deleteTodoAction,
   fetchTodosAction,
+  markAllAsCompletedAction,
   updateTodoAction,
 } from "../..";
 import { Store } from "@ngrx/store";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatDialog } from "@angular/material/dialog";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Injectable()
 export class VshostingHomeFacade {
-  private readonly todoService = inject(TodosService);
-  private readonly snackbar = inject(MatSnackBar);
   private readonly dialogService = inject(MatDialog);
   private readonly store = inject(Store);
 
@@ -62,6 +59,10 @@ export class VshostingHomeFacade {
     this.openDeleteDialog(data);
   }
 
+  markAllAsCompleted() {
+    this.openMarkAllAsCompletedDialog();
+  }
+
   private openEditDialog(data: VshostingDialogData): void {
     this.dialogService.open(VshostingDialogComponent, {
       width: "400px",
@@ -86,6 +87,18 @@ export class VshostingHomeFacade {
     });
   }
 
+  private openMarkAllAsCompletedDialog(): void {
+    this.dialogService.open(VshostingDialogComponent, {
+      width: "400px",
+      data: {
+        title: "Mark all as completed",
+        message: "Are you sure you want to mark all todos as completed?",
+        confirmText: "Mark all as completed",
+        onConfirm: () => this.confirmMarkAllAsCompleted(),
+      } as VshostingDialogData,
+    });
+  }
+
   private resetFormGroup() {
     this.formGroup.reset();
     this.formGroup.get("completed")?.setValue(false);
@@ -98,7 +111,7 @@ export class VshostingHomeFacade {
     });
   }
 
-  private saveTodo(id?: number, isCreate?: boolean) {
+  private saveTodo(id?: string, isCreate?: boolean) {
     if (isCreate) {
       return this.store.dispatch(addTodoAction({ todo: this.formGroup.value }));
     }
@@ -115,5 +128,9 @@ export class VshostingHomeFacade {
       return;
     }
     return this.store.dispatch(deleteTodoAction({ id: data.id }));
+  }
+
+  private confirmMarkAllAsCompleted() {
+    this.store.dispatch(markAllAsCompletedAction());
   }
 }

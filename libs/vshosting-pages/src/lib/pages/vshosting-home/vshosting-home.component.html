@@ -1,5 +1,9 @@
 <div class="vshosting-home">
   <div class="vshosting-home__header">
+    <div class="vshosting-home__header-todos-statistic">
+      <h4>Completed todos: {{ completedTodosCount$ | async }}</h4>
+      <h4>Uncompleted todos: {{ uncompletedTodosCount$ | async }}</h4>
+    </div>
     <button mat-fab extended color="primary" (click)="createTodo()">
       <mat-icon [fontIcon]="'add'" />
       Add Todo
@@ -9,6 +13,7 @@
     <vshosting-table
       [dataSource]="(todos$ | async)!"
       [columnDefinitions]="columnDefinitions"
+      [filterDefinitions]="filterDefinitions"
     />
   </div>
 </div>

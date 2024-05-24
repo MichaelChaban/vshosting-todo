@@ -3,7 +3,7 @@ import { environment } from "apps/vshosting-todo/src/environments/environment";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
-import { getServiceName } from "../utils";
+import { getServiceName } from "../../utils";
 
 @Injectable({ providedIn: "root" })
 export abstract class BaseHttpService<T, TKey = number> {
