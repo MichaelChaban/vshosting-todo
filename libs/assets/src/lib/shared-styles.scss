@@ -1,0 +1,15 @@
+@import './styles/';
+
+.vshosting-snackbar-success {
+  * {
+    background-color: #fff;
+    color: #4caf50 !important;
+  }
+}
+
+.vshosting-snackbar-error {
+  * {
+    background-color: #fff;
+    color: #f44336 !important;
+  }
+}

@@ -1,0 +1,51 @@
+.vshosting-table {
+  position: relative;
+  display: block;
+  max-height: 500px;
+  overflow-y: auto;
+  display: inline-table;
+
+  &__filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 1rem;
+
+    &-reset {
+      width: fit-content;
+    }
+
+    &-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+  &__header-actions,
+  &__column-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1rem;
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(gray, 0.6);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgb(gray, 0.1);
+  }
+}

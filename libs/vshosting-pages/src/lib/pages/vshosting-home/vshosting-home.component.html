@@ -1,0 +1,36 @@
+<div class="vshosting-home">
+  <div class="vshosting-home__header">
+    <div class="vshosting-home__header-todos-statistic">
+      <h4>Completed todos: {{ completedTodosCount$ | async }}</h4>
+      <h4>Uncompleted todos: {{ uncompletedTodosCount$ | async }}</h4>
+    </div>
+    <button mat-fab extended color="primary" (click)="createTodo()">
+      <mat-icon [fontIcon]="'add'" />
+      Add Todo
+    </button>
+  </div>
+  <div class="vshosting-home__table">
+    <vshosting-table
+      [dataSource]="(todos$ | async)!"
+      [columnDefinitions]="columnDefinitions"
+      [filterDefinitions]="filterDefinitions"
+    />
+  </div>
+</div>
+
+<ng-template #editTodoTemplate>
+  <form [formGroup]="facade.formGroup" class="vshosting-home__form">
+    <mat-form-field appearance="fill">
+      <mat-label>Task</mat-label>
+      <input matInput formControlName="text" placeholder="Enter todo" />
+      @if(isFormInvalid){
+      <mat-error>
+        Task is required
+      </mat-error>
+      }
+    </mat-form-field>
+    <mat-checkbox formControlName="completed" class="example-margin"
+      >Completed</mat-checkbox
+    >
+  </form>
+</ng-template>

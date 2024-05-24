@@ -1,0 +1,38 @@
+.vshosting-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 3rem 0;
+  margin: auto;
+  max-width: 40rem;
+
+  h4 {
+    margin: 0;
+  }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+    &-todos-statistic {
+      gap: 0.3rem;
+      flex-direction: column;
+      justify-content: center;
+      display: flex;
+    }
+  }
+
+  &__table {
+    max-width: 40rem;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -19,7 +19,7 @@ jobs:
           node-version: '21.7.1'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install -f
 
       - name: Build Angular app
         run: npm run build:prod
