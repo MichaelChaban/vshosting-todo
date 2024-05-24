@@ -20,7 +20,10 @@
           "apps/vshosting-todo/src/favicon.ico",
           "apps/vshosting-todo/src/assets"
         ],
-        "styles": ["apps/vshosting-todo/src/styles.scss"],
+        "styles": [
+          "apps/vshosting-todo/src/styles.scss",
+          "libs/assets/src/lib/shared-styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {

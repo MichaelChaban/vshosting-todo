@@ -1,0 +1,13 @@
+.vshosting-dialog {
+  &__title {
+    text-align: center;
+  }
+
+  &__content {
+    padding: 1rem 2rem !important;
+  }
+
+  &__actions {
+    justify-content: center !important;
+  }
+}
