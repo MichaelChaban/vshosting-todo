@@ -56,7 +56,7 @@ export class TodoEffects {
             });
           }),
           catchError(() => {
-            this.snackbar.error(`Todo #${todo.id} was not updated`);
+            this.snackbar.error(`Todo #${id} was not updated`);
             return EMPTY;
           })
         )

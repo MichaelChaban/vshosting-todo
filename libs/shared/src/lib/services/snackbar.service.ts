@@ -15,7 +15,7 @@ export class VshostingSnackbarService {
     });
   }
 
-  error(message: string, action = "Close", duration = 100000) {
+  error(message: string, action = "Close", duration = 4000) {
     this.snackbar.open(message, action, {
       duration,
       panelClass: ["vshosting-snackbar-error"],
@@ -24,7 +24,7 @@ export class VshostingSnackbarService {
     });
   }
 
-  success(message: string, action = "Close", duration = 100000) {
+  success(message: string, action = "Close", duration = 4000) {
     this.snackbar.open(message, action, {
       duration,
       panelClass: ["vshosting-snackbar-success"],
