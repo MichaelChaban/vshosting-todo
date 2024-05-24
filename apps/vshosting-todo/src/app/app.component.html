@@ -1,1 +1,6 @@
-<router-outlet></router-outlet>
+@defer (on viewport; on timer(3s)) {<router-outlet></router-outlet> }
+@placeholder {
+<vshosting-loader />
+}@loading {
+<vshosting-loader />
+}
