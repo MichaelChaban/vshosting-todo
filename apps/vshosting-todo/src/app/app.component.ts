@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import { VshostingLoaderComponent } from "@vshosting-todo/shared";
 
 @Component({
   standalone: true,
-  imports: [RouterModule],
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  imports: [RouterModule, VshostingLoaderComponent],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.scss",
 })
-export class AppComponent {
-  title = 'vshosting-todo';
-}
+export class AppComponent {}
